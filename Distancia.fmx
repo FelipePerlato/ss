@@ -1,0 +1,132 @@
+object FrmDistancia: TFrmDistancia
+  Left = 0
+  Top = 0
+  Caption = 'Distancia'
+  ClientHeight = 480
+  ClientWidth = 320
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 3
+  object Rectangle1: TRectangle
+    Fill.Color = claOrangered
+    Size.Width = 321.000000000000000000
+    Size.Height = 481.000000000000000000
+    Size.PlatformDefault = False
+    object LayoutDistancia: TLayout
+      Align = Center
+      Size.Width = 293.000000000000000000
+      Size.Height = 317.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object LabelTempo: TLabel
+        Position.Y = 256.000000000000000000
+        Size.Width = 321.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Tempo: 0hs'
+        TabOrder = 5
+      end
+      object LabelOrigem: TLabel
+        Position.X = 96.000000000000000000
+        Size.Width = 73.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Origem'
+        TabOrder = 7
+      end
+      object LabelDistancia: TLabel
+        Position.Y = 222.000000000000000000
+        Size.Width = 321.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Distancia: 0km'
+        TabOrder = 4
+      end
+      object LabelDestino: TLabel
+        Position.X = 88.000000000000000000
+        Position.Y = 69.000000000000000000
+        Size.Width = 81.000000000000000000
+        Size.Height = 23.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Destino'
+        TabOrder = 6
+      end
+      object EditOrigem: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 1
+        Position.Y = 24.000000000000000000
+        Size.Width = 289.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object EditDestino: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 2
+        Position.Y = 96.000000000000000000
+        Size.Width = 289.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object btnCalcular: TButton
+        Position.Y = 158.000000000000000000
+        Size.Width = 293.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 8
+        Text = 'Calcular'
+        OnClick = btnCalcularClick
+      end
+      object Label12: TLabel
+        StyledSettings = [Size]
+        Margins.Right = 20.000000000000000000
+        Position.X = 112.000000000000000000
+        Position.Y = -72.000000000000000000
+        Size.Width = 73.000000000000000000
+        Size.Height = 27.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Kristen ITC'
+        TextSettings.Font.StyleExt = {00070000000000000005000000}
+        TextSettings.FontColor = claWhite
+        Text = 'Viagem'
+        TabOrder = 0
+      end
+      object btn_voltar_viagem: TButton
+        HitTest = False
+        IconTintColor = claWhite
+        Position.X = -8.000000000000000000
+        Position.Y = -80.000000000000000000
+        Size.Width = 48.000000000000000000
+        Size.Height = 48.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = 'backtoolbutton'
+        TabOrder = 3
+      end
+    end
+  end
+  object RESTClient1: TRESTClient
+    BaseURL = 'https://itinerario-67d23-default-rtdb.firebaseio.com'
+    Params = <>
+    Left = 224
+    Top = 32
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 224
+    Top = 152
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Resource = 'Appitinerario.json'
+    Response = RESTResponse1
+    Left = 223
+    Top = 92
+  end
+  object ActionList1: TActionList
+    Left = 256
+    Top = 416
+    object ChangeTabAction1: TChangeTabAction
+      Category = 'Tab'
+    end
+  end
+end

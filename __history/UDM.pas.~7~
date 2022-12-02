@@ -1,0 +1,120 @@
+unit UDM;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.SQLite,
+  FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.FMXUI.Wait, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.DataSet, IOUtils;
+
+type
+  Tdm = class(TDataModule)
+    FDConnection: TFDConnection;
+    FDQLogin: TFDQuery;
+    FDQLoginidlogin: TFDAutoIncField;
+    FDQLoginemail: TStringField;
+    FDQLoginsenha: TStringField;
+    FDQCarro: TFDQuery;
+    FDQLogado: TFDQuery;
+    FDQViagem: TFDQuery;
+    FDQCarroidcarro: TFDAutoIncField;
+    FDQCarroplaca: TStringField;
+    FDQCarromodelo: TStringField;
+    FDQCarroqtdtanque: TIntegerField;
+    FDQCarronome: TStringField;
+    FDQCarrodescricao: TStringField;
+    FDQViagemid: TFDAutoIncField;
+    FDQViagemorigem: TStringField;
+    FDQViagemdestino: TStringField;
+    FDQViagemorigemlatitude: TFMTBCDField;
+    FDQViagemorigemlongitude: TFMTBCDField;
+    FDQViagemdestinolatitude: TFMTBCDField;
+    FDQViagemdestinolongitude: TFMTBCDField;
+    FDQViagemvalorgasolina: TFMTBCDField;
+    FDQViagemvaloretanol: TFMTBCDField;
+    FDQViagemvalordiesel: TFMTBCDField;
+    FDQViagemidveiculo: TWideStringField;
+    FDQLoginnome: TStringField;
+    FDQLogadoidlogin: TFDAutoIncField;
+    FDQLogadonome: TStringField;
+    FDQLogadoemail: TStringField;
+    FDQLogadosenha: TStringField;
+    procedure FDConnectionAfterConnect(Sender: TObject);
+    procedure FDConnectionBeforeConnect(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dm: Tdm;
+
+implementation
+
+{%CLASSGROUP 'FMX.Controls.TControl'}
+{$R *.dfm}
+
+procedure Tdm.FDConnectionAfterConnect(Sender: TObject);
+var
+  strSQL: string;
+begin
+
+  strSQL := 'create table IF NOT EXISTS login(' +
+    'idlogin integer primary key autoincrement,' +
+    'nome varchar(10),'+
+    'email varchar(50) not null,  ' + 'senha varchar(8) not null) ';
+
+  FDConnection.ExecSQL(strSQL);
+  strSQL := EmptyStr;
+
+  strSQL := 'create table IF NOT EXISTS carro( ' +
+    'idcarro integer primary key autoincrement,' +
+    'placa varchar(7), ' +
+    'nome varchar(50), ' +
+    'modelo varchar(50),   ' +
+    'qtdtanque integer,' +
+    'descricao varchar(50))' ;
+
+  FDConnection.ExecSQL(strSQL);
+  strSQL := EmptyStr;
+
+
+  strSQL := 'create table IF NOT EXISTS viagem('+
+  'id integer not null primary key autoincrement,'+
+  'origem varchar(100),'+
+  'destino varchar(100),'+
+  'origemlatitude numeric(10, 8),'+
+  'origemlongitude numeric(10, 8),' +
+  'destinolatitude numeric(10, 8),' +
+  'destinolongitude numeric(10, 8),' +
+  'valorgasolina numeric(10, 8),' +
+  'valoretanol numeric(10, 8),' +
+  'valordiesel numeric(10, 8))';
+  FDConnection.ExecSQL(strSQL);
+  strSQL := EmptyStr;
+
+     FDQLogin.Active  :=true;
+     FDQCarro.Active :=true;
+end;
+
+procedure Tdm.FDConnectionBeforeConnect(Sender: TObject);
+var
+strPath: string;
+begin
+    {$IF DEFINED(iOS) or DEFINED(ANDROID)}
+       strPath:= System.IOUtils.Tpath.Combine(System.IOUtils.TPath.GetDocumentsPath,
+       'bd.db');
+  {$ENDIF}
+  {$IFDEF MSWINDOWS}
+      strPath := System.IOUtils.Tpath.Combine('F:\DelphiLast-master\BD','bd.db');
+  {$ENDIF}
+       FDconnection.Params.Values['UseUnicode'] :='False';
+       FDconnection.Params.Values['DATABASE'] :=strPath;
+end;
+
+end.
